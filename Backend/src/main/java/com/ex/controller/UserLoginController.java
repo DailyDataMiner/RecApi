@@ -1,6 +1,12 @@
 package com.ex.controller;
 
+import java.io.File;
+import java.util.Enumeration;
 import java.util.List;
+
+import org.apache.log4j.Appender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +25,10 @@ import com.ex.services.UserLoginService;
 @RequestMapping("/login")
 @CrossOrigin(origins = "*")
 public class UserLoginController {
+
 	
+	final static Logger logger = Logger.getLogger(UserLoginController.class);
+
 	@Autowired
 	private UserLoginService userLoginService;
 	
@@ -28,6 +37,7 @@ public class UserLoginController {
 		consumes=MediaType.APPLICATION_JSON_VALUE,
 		produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserLogin> addUserLogin(@RequestBody UserLogin a) {
+	
 		try {
 			a = userLoginService.addUserLogin(a);
 			if(a == null) {
@@ -36,7 +46,8 @@ public class UserLoginController {
 			else {
 				return new ResponseEntity<UserLogin>(a, HttpStatus.CREATED);
 			}
-		} catch (NullPointerException e) {
+		} catch (Exception e) {	
+			logger.error("Exception ", e);
 			return null;
 		}
 	}
@@ -56,6 +67,7 @@ public class UserLoginController {
 			return new ResponseEntity<UserLogin>(HttpStatus.NOT_FOUND);
 		}
 		} catch (NullPointerException e) {
+			logger.error("Exception ", e);
 			return null;
 		}
 	}
@@ -63,7 +75,11 @@ public class UserLoginController {
 	@RequestMapping(value="/all", method=RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UserLogin>> getAll() {
+		try {
 		List<UserLogin> list = userLoginService.getAll();
 		return new ResponseEntity<List<UserLogin>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("Exception ", e);
+		} return null;
 	}
 }

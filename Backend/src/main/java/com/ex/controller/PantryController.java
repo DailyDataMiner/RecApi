@@ -1,5 +1,6 @@
 package com.ex.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,8 @@ import com.ex.services.PantryService;
 @CrossOrigin(origins = "*")
 public class PantryController {
 	
+	final static Logger logger = Logger.getLogger(PantryController.class);
+	
 	@Autowired
 	private PantryService userPantryService;
 	
@@ -26,6 +29,7 @@ public class PantryController {
 		consumes=MediaType.APPLICATION_JSON_VALUE,
 		produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Pantry> addUserPantry(@RequestBody Pantry a) {
+		try {
 		a = userPantryService.addUserPantry(a);
 		if (a == null) {
 			return new ResponseEntity<Pantry>(a, HttpStatus.CONFLICT);
@@ -33,23 +37,35 @@ public class PantryController {
 		else {
 			return new ResponseEntity<Pantry>(a, HttpStatus.CREATED);
 		}
+		} catch (Exception e) {
+			logger.error("Error ", e);
+			return null;
+		}
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST,
 		consumes=MediaType.APPLICATION_JSON_VALUE,
 		produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Pantry> updateUserPantry(@RequestBody Pantry a) {
+		try {
 		a = userPantryService.updateUserPantry(a);
 		return new ResponseEntity<Pantry>(a, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("Exception ", e);
+			return null;
+		}
 	}
 	
 	@RequestMapping(value="/retrieve", method=RequestMethod.POST,
 		consumes=MediaType.APPLICATION_JSON_VALUE,
 		produces=MediaType.APPLICATION_JSON_VALUE)	
 	public ResponseEntity<Pantry> retrieveUserPantry(@RequestBody UserLogin a) {
-		System.out.println(a.getUsername());
+		try {
 		Pantry result = userPantryService.retrieve(a.getUsername());
-		System.out.println(result);
 		return new ResponseEntity<Pantry>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("Exception ", e);
+			return null;
+		}
 	}
 }
