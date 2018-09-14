@@ -18,8 +18,6 @@ import com.ex.services.UserInfoService;
 @RequestMapping("/info")
 @CrossOrigin(origins = "*")
 public class UserInfoController {
-	
-	final static Logger logger = Logger.getLogger(UserInfoController.class);
 
 	@Autowired
 	private UserInfoService userInformationService;
@@ -32,7 +30,6 @@ public class UserInfoController {
 		a = userInformationService.addUserInformation(a);
 		return new ResponseEntity<UserInfo>(a, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error("Exception ", e);
 			return null;
 		}
 	}

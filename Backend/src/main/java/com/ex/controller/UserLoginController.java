@@ -25,10 +25,7 @@ import com.ex.services.UserLoginService;
 @RequestMapping("/login")
 @CrossOrigin(origins = "*")
 public class UserLoginController {
-
 	
-	final static Logger logger = Logger.getLogger(UserLoginController.class);
-
 	@Autowired
 	private UserLoginService userLoginService;
 	
@@ -47,7 +44,6 @@ public class UserLoginController {
 				return new ResponseEntity<UserLogin>(a, HttpStatus.CREATED);
 			}
 		} catch (Exception e) {	
-			logger.error("Exception ", e);
 			return null;
 		}
 	}
@@ -67,7 +63,6 @@ public class UserLoginController {
 			return new ResponseEntity<UserLogin>(HttpStatus.NOT_FOUND);
 		}
 		} catch (NullPointerException e) {
-			logger.error("Exception ", e);
 			return null;
 		}
 	}
@@ -79,7 +74,6 @@ public class UserLoginController {
 		List<UserLogin> list = userLoginService.getAll();
 		return new ResponseEntity<List<UserLogin>>(list, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error("Exception ", e);
 		} return null;
 	}
 }

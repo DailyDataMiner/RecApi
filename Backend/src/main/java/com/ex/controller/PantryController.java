@@ -19,9 +19,7 @@ import com.ex.services.PantryService;
 @RequestMapping("/pantry")
 @CrossOrigin(origins = "*")
 public class PantryController {
-	
-	final static Logger logger = Logger.getLogger(PantryController.class);
-	
+
 	@Autowired
 	private PantryService userPantryService;
 	
@@ -38,7 +36,6 @@ public class PantryController {
 			return new ResponseEntity<Pantry>(a, HttpStatus.CREATED);
 		}
 		} catch (Exception e) {
-			logger.error("Error ", e);
 			return null;
 		}
 	}
@@ -51,7 +48,6 @@ public class PantryController {
 		a = userPantryService.updateUserPantry(a);
 		return new ResponseEntity<Pantry>(a, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error("Exception ", e);
 			return null;
 		}
 	}
@@ -64,7 +60,6 @@ public class PantryController {
 		Pantry result = userPantryService.retrieve(a.getUsername());
 		return new ResponseEntity<Pantry>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error("Exception ", e);
 			return null;
 		}
 	}
